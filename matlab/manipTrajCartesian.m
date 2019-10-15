@@ -10,7 +10,7 @@ clear, clc, close all
 createWaypointData;
 
 % Define IK
-ik = robotics.InverseKinematics('RigidBodyTree',gen3);
+ik = inverseKinematics('RigidBodyTree',gen3);
 ikWeights = [1 1 1 1 1 1];
 ikInitGuess = gen3.homeConfiguration;
 

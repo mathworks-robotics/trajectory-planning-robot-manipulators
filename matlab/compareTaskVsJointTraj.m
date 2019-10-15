@@ -13,7 +13,7 @@ zlabel('Z [m]');
 grid on
 view([45 45]);
 % Define IK solver
-ik = robotics.InverseKinematics('RigidBodyTree',gen3);
+ik = inverseKinematics('RigidBodyTree',gen3);
 ikWeights = [1 1 1 1 1 1];
 % Use a small sample time for this example, so the difference between joint
 % and task space is clear due to evaluation of IK in task space trajectory.
@@ -28,7 +28,7 @@ ikInitGuess = jointAnglesHome';
 ikInitGuess(ikInitGuess > pi) = ikInitGuess(ikInitGuess > pi) - 2*pi;
 ikInitGuess(ikInitGuess < -pi) = ikInitGuess(ikInitGuess < -pi) + 2*pi;
 
-disp('Running task space trajectory generation and following...')
+disp('Running task space trajectory generation and evaluation...')
 tic;
 
 % Trajectory generation
@@ -63,8 +63,8 @@ jointWaypoints = zeros(numJoints,numWaypoints);
 for idx = 1:numWaypoints
     tgtPose = trvec2tform(waypoints(:,idx)');
     [config,info] = ik(eeName,tgtPose,ikWeights,ikInitGuess);
-    ikInitGuess = config;   
-    jointWaypoints(:,idx) = config';
+    cfgDiff = config - ikInitGuess;
+    jointWaypoints(:,idx) = config';    
 end
 
 % Trajectory Generation

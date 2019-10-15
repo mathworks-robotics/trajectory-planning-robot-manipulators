@@ -11,7 +11,7 @@ clear, clc, close all
 createWaypointData;
 
 % Define IK
-ik = robotics.InverseKinematics('RigidBodyTree',gen3);
+ik = inverseKinematics('RigidBodyTree',gen3);
 ikWeights = [1 1 1 1 1 1];
 ikInitGuess = jointAnglesHome';
 ikInitGuess(ikInitGuess > pi) = ikInitGuess(ikInitGuess > pi) - 2*pi;
@@ -41,8 +41,6 @@ for idx = 1:numWaypoints
         tgtPose =  trvec2tform(waypoints(:,idx)');
     end
     [config,info] = ik(eeName,tgtPose,ikWeights,ikInitGuess);
-    ikInitGuess = config;
-    
     jointWaypoints(:,idx) = config';
 end
 

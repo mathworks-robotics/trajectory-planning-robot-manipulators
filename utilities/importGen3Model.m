@@ -3,18 +3,27 @@ function importGen3Model
 %
 % Copyright 2019 The MathWorks, Inc.
 
-    % Gen3 URDF
-    addpath(genpath('gen3_description'))
-    gen3 = importrobot('JACO3_URDF_V11.urdf');
+    % Load the URDF file
+    %
+    % NOTE: This requires you to have the kortex_description folder on 
+    % your path, which you can download from 
+    % https://github.com/Kinovarobotics/ros_kortex.git
+    %
+    % Then, you have to convert the gen3.xacro file to a URDF file using
+    % the following commands in a ROS enabled terminal:
+    %  $ cd PATH/TO/ros_kortex/kortex_description/robots
+    %  $ rosrun xacro xacro --inorder -o gen3.urdf gen3.xacro
+    addpath(genpath('kortex_description'))
+    gen3 = importrobot('gen3.urdf');
 
     % Add a "dummy" gripper link
     gripperLength = 0.1; % Gripper length in meters
-    gripperBody = robotics.RigidBody('Gripper');
-    gripperJoint = robotics.Joint('GripperLink','fixed');
+    gripperBody = rigidBody('Gripper');
+    gripperJoint = rigidBodyJoint('GripperLink','fixed');
     T = rotm2tform([0 1 0;0 0 1;1 0 0]) * trvec2tform([gripperLength 0 0]);
     setFixedTransform(gripperJoint,T); % Move and orient the gripper
     gripperBody.Joint = gripperJoint;
-    addBody(gen3,gripperBody,'EndEffector_Link');
+    addBody(gen3,gripperBody,'end_effector_link');
     % Add a "dummy" mesh
     addVisual(gen3.Bodies{9},'Mesh','cylinder.stl', ... 
               trvec2tform([-0.1 0 0]) * axang2tform([0 1 0 pi/2]));
