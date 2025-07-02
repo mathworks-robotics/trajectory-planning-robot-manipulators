@@ -14,7 +14,7 @@ access the 3D model description from the Kinova Kortex GitHub repository:
 https://github.com/Kinovarobotics/ros_kortex
 
 For more information on the Robotics System Toolbox functionality for manipulators, 
-see the documentation: https://www.mathworks.com/help/robotics/manipulators.html
+see the documentation: https://www.mathworks.com/help/ros/robotic-manipulators-applications.html 
 
 For more background information on trajectory planning, refer to this presentation:
 https://cw.fel.cvut.cz/old/_media/courses/a3m33iro/080manipulatortrajectoryplanning.pdf
